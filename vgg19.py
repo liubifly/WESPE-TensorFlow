@@ -4,6 +4,7 @@ import numpy as np
 import scipy.io
 from utils import *
 
+
 def net(path_to_vgg_net, input_image):
 
     layers = (
@@ -41,9 +42,11 @@ def net(path_to_vgg_net, input_image):
 
     return net
 
+
 def _conv_layer(input, weights, bias):
     conv = tf.nn.conv2d(input, tf.constant(weights), strides=(1, 1, 1, 1), padding='SAME')
     return tf.nn.bias_add(conv, bias)
+
 
 def _pool_layer(input):
     return tf.nn.max_pool(input, ksize=(1, 2, 2, 1), strides=(1, 2, 2, 1), padding='SAME')

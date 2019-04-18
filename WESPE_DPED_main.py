@@ -9,7 +9,6 @@ from dataloader.dataloader import *
 from ops import *
 
 
-
 def main():
     config = edict()
     # training parameters
@@ -44,7 +43,7 @@ def main():
                                                 "*.jpg")
     config.test_path_dslr_image = os.path.join("/home/ubuntu/sample_images/original_images/canon/*.jpg")
 
-    config.vgg_dir = "../vgg_pretrained/imagenet-vgg-verydeep-19.mat"
+    config.vgg_dir = "imagenet-vgg-verydeep-19.mat"
 
     config.result_dir = os.path.join("./result", config.model_name)
     config.result_img_dir = os.path.join(config.result_dir, "samples")
