@@ -72,7 +72,7 @@ def main():
     # train generator & discriminator together
     model.train(load=True)
     # test trained model
-    model.test_gecnerator(200, 4, load=False)
+    model.test_generator(200, 4, load=False)
     # save trained model
     model.save()
 
