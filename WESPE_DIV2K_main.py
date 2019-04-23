@@ -16,7 +16,7 @@ def main():
     config.learning_rate = 1e-4
     config.augmentation = True  # data augmentation (flip, rotation)
     config.test_every = 500
-    config.train_iter = 20000
+    config.train_iter = 10000
 
     # weights for loss
     config.w_content = 0.2  # reconstruction (originally 1)
@@ -65,14 +65,14 @@ def main():
     # build WESPE model
     tf.reset_default_graph()
     # uncomment this when only trying to test the model
-    dataset_phone = []
-    dataset_DIV2K = []
+    # dataset_phone = []
+    # dataset_DIV2K = []
     sess = tf.Session()
     model = WESPE(sess, config, dataset_phone, dataset_DIV2K)
     # train generator & discriminator together
     model.train(load=True)
     # test trained model
-    model.test_generator(200, 4, load=False)
+    model.test_gecnerator(200, 4, load=False)
     # save trained model
     model.save()
 
