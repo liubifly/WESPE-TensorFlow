@@ -20,7 +20,7 @@ def main():
     config.learning_rate = 1e-4
     config.augmentation = True  # data augmentation (flip, rotation)
     config.test_every = 500
-    config.train_iter = 20000
+    config.train_iter = 0
 
     # weights for loss
     config.w_content = 0.1  # reconstruction (originally 1)
@@ -65,13 +65,13 @@ def main():
         os.makedirs(config.sample_dir)
 
     # load dataset
-    dataset_phone, dataset_dslr = load_dataset(config)
+    # dataset_phone, dataset_dslr = load_dataset(config)
 
     # build WESPE model
     tf.reset_default_graph()
     # uncomment this when only trying to test the model
-    # dataset_phone = []
-    # dataset_dslr = []
+    dataset_phone = []
+    dataset_dslr = []
     sess = tf.Session()
     model = WESPE(sess, config, dataset_phone, dataset_dslr)
 
