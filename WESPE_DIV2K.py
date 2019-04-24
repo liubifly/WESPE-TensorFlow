@@ -11,6 +11,7 @@ from ops import *
 from vgg19 import *
 from dataloader.dataloader_DIV2K import *
 import modules
+from ssim import MultiScaleSSIM
 
 class WESPE(object):
     def __init__(self, sess, config, dataset_phone, dataset_DIV2K):
@@ -158,6 +159,8 @@ class WESPE(object):
 
         PSNR_phone_reconstructed_list = np.zeros([test_num_patch])
         PSNR_phone_enhanced_list = np.zeros([test_num_patch])
+        SSIM_phone_reconstructed_list = np.zeros([test_num_patch])
+        SSIM_phone_enhanced_list = np.zeros([test_num_patch])
 
         indexes = []
         for i in range(test_num_patch):
@@ -172,13 +175,18 @@ class WESPE(object):
                 imageio.imwrite(("./samples_DIV2K/%s/patch/reconstructed_%d.png" %(self.config.dataset_name,i)), postprocess(test_patch_reconstructed[0]))
             #print(enhanced_test_patch.shape)
             PSNR = calc_PSNR(postprocess(test_patch_enhanced[0]), postprocess(test_patch_phone))
+            SSIM = MultiScaleSSIM(postprocess(test_patch_enhanced[0]), postprocess(test_patch_phone))
             #print("PSNR: %.3f" %PSNR)
             PSNR_phone_enhanced_list[i] = PSNR
+            SSIM_phone_enhanced_list[i] = SSIM
 
             PSNR = calc_PSNR(postprocess(test_patch_reconstructed[0]), postprocess(test_patch_phone))
+            SSIM = MultiScaleSSIM(postprocess(test_patch_reconstructed[0]), postprocess(test_patch_phone))
             #print("PSNR: %.3f" %PSNR)
             PSNR_phone_reconstructed_list[i] = PSNR
-        print("(runtime: %.3f s) Average test PSNR for %d random test image patches: phone-enhanced %.3f, phone-reconstructed %.3f" %(time.time()-start, test_num_patch, np.mean(PSNR_phone_enhanced_list), np.mean(PSNR_phone_reconstructed_list) ))
+            SSIM_phone_reconstructed_list[i] = SSIM
+        print("(runtime: %.3f s) Average test PSNR for %d random test image patches: phone-enhanced %.3f, phone-reconstructed %.3f" %(time.time()-start, test_num_patch, np.mean(PSNR_phone_enhanced_list), np.mean(PSNR_phone_reconstructed_list)))
+        print("Average test SSIM for %d random test image patches: phone-enhanced %.3f, phone-reconstructed %.3f" %(test_num_patch, np.mean(SSIM_phone_enhanced_list), np.mean(SSIM_phone_reconstructed_list)))
         
         # test for images
         start = time.time()

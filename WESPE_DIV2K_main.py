@@ -26,7 +26,7 @@ def main():
 
     config.model_name = "WESPE_DIV2K"
 
-    config.dataset_name = "iphone"
+    config.dataset_name = "sony"
     config.train_path_phone = os.path.join("/home/ubuntu/dped", str(config.dataset_name), "training_data",
                                            str(config.dataset_name), "*.jpg")
     config.train_path_DIV2K = os.path.join("/home/ubuntu/DIV2K/DIV2K_train_HR/*.png")
