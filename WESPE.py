@@ -299,7 +299,7 @@ class WESPE(object):
             PSNR_phone_reconstructed_list[i] = PSNR
             SSIM_phone_reconstructed_list[i] = SSIM
         if test_num_image > 0:
-            #print("(runtime: %.3f s) Average test PSNR for %d random full test images: phone-enhanced %.3f" %(time.time()-start, test_num_image, np.mean(PSNR_phone_enhanced_list)))
+            print("(runtime: %.3f s) Average test PSNR for %d random full test images: phone-enhanced %.3f" %(time.time()-start, test_num_image, np.mean(PSNR_phone_enhanced_list)))
             print("Average test SSIM for %d random full test images: original-enhanced %.3f, original-reconstructed %.3f" %(test_num_image, np.mean(SSIM_phone_enhanced_list), np.mean(SSIM_phone_reconstructed_list)))
 
     def save(self):
