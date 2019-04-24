@@ -269,6 +269,8 @@ class WESPE(object):
         PSNR_phone_enhanced_list = np.zeros([test_num_image])
         PSNR_phone_reconstructed_list = np.zeros([test_num_image])
         PSNR_dslr_enhanced_list = np.zeros([test_num_image])
+        SSIM_phone_reconstructed_list = np.zeros([test_num_image])
+        SSIM_phone_enhanced_list = np.zeros([test_num_image])
         indexes = []
         for i in range(test_num_image):
             #index = np.random.randint(len(test_list_phone))
@@ -286,15 +288,19 @@ class WESPE(object):
             imageio.imwrite(("./samples/%s/image/enhanced_%d.png" %(self.config.dataset_name, i)), postprocess(test_image_enhanced[0]))
             imageio.imwrite(("./samples/%s/image/reconstructed_%d.png" %(self.config.dataset_name, i)), postprocess(test_image_reconstructed[0]))
             PSNR = calc_PSNR(postprocess(test_image_enhanced[0]), postprocess(test_image_phone))
-            
+            SSIM = MultiScaleSSIM(postprocess(test_image_enhanced[0]), postprocess(test_image_phone))
+
             #print("PSNR: %.3f" %PSNR)
             PSNR_phone_enhanced_list[i] = PSNR
-            
+            SSIM_phone_enhanced_list[i] = SSIM
+
             PSNR = calc_PSNR(postprocess(test_image_reconstructed[0]), postprocess(test_image_phone))
+            SSIM = MultiScaleSSIM(postprocess(test_image_reconstructed[0]), postprocess(test_image_phone))
             PSNR_phone_reconstructed_list[i] = PSNR
+            SSIM_phone_reconstructed_list[i] = SSIM
         if test_num_image > 0:
             #print("(runtime: %.3f s) Average test PSNR for %d random full test images: phone-enhanced %.3f" %(time.time()-start, test_num_image, np.mean(PSNR_phone_enhanced_list)))
-            print("(runtime: %.3f s) Average test PSNR for %d random full test images: original-enhanced %.3f, original-reconstructed %.3f" %(time.time()-start, test_num_image, np.mean(PSNR_phone_enhanced_list), np.mean(PSNR_phone_reconstructed_list)))
+            print("Average test SSIM for %d random full test images: original-enhanced %.3f, original-reconstructed %.3f" %(test_num_image, np.mean(SSIM_phone_enhanced_list), np.mean(SSIM_phone_reconstructed_list)))
 
     def save(self):
         model_name = self.config.model_name
