@@ -24,14 +24,14 @@ def _SSIMForMultiScale(img1, img2, max_val=255, filter_size=11, filter_sigma=1.5
 
     img1 = img1.astype(np.float64)
     img2 = img2.astype(np.float64)
-    _, height, width, _ = img1.shape
+    height, width, _ = img1.shape
 
     size = min(filter_size, height, width)
     sigma = size * filter_sigma / filter_size if filter_size else 0
 
     if filter_size:
 
-        window = np.reshape(_FSpecialGauss(size, sigma), (1, size, size, 1))
+        window = np.reshape(_FSpecialGauss(size, sigma), (size, size, 1))
         mu1 = signal.fftconvolve(img1, window, mode='valid')
         mu2 = signal.fftconvolve(img2, window, mode='valid')
         sigma11 = signal.fftconvolve(img1 * img1, window, mode='valid')
@@ -68,7 +68,7 @@ def MultiScaleSSIM(img1, img2, max_val=255, filter_size=11, filter_sigma=1.5, k1
     weights = np.array(weights if weights else [0.0448, 0.2856, 0.3001, 0.2363, 0.1333])
     levels = weights.size
 
-    downsample_filter = np.ones((1, 2, 2, 1)) / 4.0
+    downsample_filter = np.ones((2, 2, 1)) / 4.0
     im1, im2 = [x.astype(np.float64) for x in [img1, img2]]
 
     mssim = np.array([])
@@ -81,6 +81,6 @@ def MultiScaleSSIM(img1, img2, max_val=255, filter_size=11, filter_sigma=1.5, k1
         mcs = np.append(mcs, cs)
 
         filtered = [convolve(im, downsample_filter, mode='reflect') for im in [im1, im2]]
-        im1, im2 = [x[:, ::2, ::2, :] for x in filtered]
+        im1, im2 = [x[::2, ::2, :] for x in filtered]
 
     return np.prod(mcs[0:levels-1] ** weights[0:levels-1]) * (mssim[levels-1] ** weights[levels-1])

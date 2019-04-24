@@ -16,7 +16,7 @@ def main():
     config.learning_rate = 1e-4
     config.augmentation = True  # data augmentation (flip, rotation)
     config.test_every = 500
-    config.train_iter = 10000
+    config.train_iter = 0
 
     # weights for loss
     config.w_content = 0.2  # reconstruction (originally 1)
@@ -26,10 +26,10 @@ def main():
 
     config.model_name = "WESPE_DIV2K"
 
-    config.dataset_name = "sony"
-    config.train_path_phone = os.path.join("/home/ubuntu/dped", str(config.dataset_name), "training_data",
-                                           str(config.dataset_name), "*.jpg")
-    config.train_path_DIV2K = os.path.join("/home/ubuntu/DIV2K/DIV2K_train_HR/*.png")
+    config.dataset_name = "blackberry"
+    # config.train_path_phone = os.path.join("/home/ubuntu/dped", str(config.dataset_name), "training_data",
+    #                                        str(config.dataset_name), "*.jpg")
+    # config.train_path_DIV2K = os.path.join("/home/ubuntu/DIV2K/DIV2K_train_HR/*.png")
 
     config.test_path_phone_patch = os.path.join("/home/ubuntu/dped", str(config.dataset_name),
                                                 "test_data/patches", str(config.dataset_name), "*.jpg")
@@ -59,14 +59,14 @@ def main():
         os.makedirs(config.sample_dir)
     # directories
     # load dataset
-    dataset_phone, dataset_DIV2K = load_dataset(config)
-    phone_batch, DIV2K_batch = get_batch(dataset_phone, dataset_DIV2K, config, start=0)
-    print('done!')
+    # dataset_phone, dataset_DIV2K = load_dataset(config)
+    # phone_batch, DIV2K_batch = get_batch(dataset_phone, dataset_DIV2K, config, start=0)
+    # print('done!')
     # build WESPE model
     tf.reset_default_graph()
     # uncomment this when only trying to test the model
-    # dataset_phone = []
-    # dataset_DIV2K = []
+    dataset_phone = []
+    dataset_DIV2K = []
     sess = tf.Session()
     model = WESPE(sess, config, dataset_phone, dataset_DIV2K)
     # train generator & discriminator together
