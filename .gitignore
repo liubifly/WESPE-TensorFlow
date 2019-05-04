@@ -15,3 +15,5 @@ checkpoint
 venv
 .idea
 imagenet-vgg-verydeep-19.mat
+
+*tar
